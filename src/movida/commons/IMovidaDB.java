@@ -105,8 +105,11 @@ public interface IMovidaDB {
      */
     public Movie[] getAllMovies();
 
-/**
- * Restituisce il vettore di tutte le persone
- *
- * @return array di persone
- */
+    /**
+     * Restituisce il vettore di tutte le persone
+     *
+     * @return array di persone
+     */
+    public Person[] getAllPeople();
+
+}
