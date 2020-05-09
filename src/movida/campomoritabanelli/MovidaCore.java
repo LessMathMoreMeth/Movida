@@ -32,5 +32,8 @@ public class MovidaCore implements IMovidaDB{
     public Person[] getAllPeople(){return null;}
 
     public static void main(String[] args){
+        MovidaCore m=new MovidaCore();
+        m.loadFromFile(new File("./esempio-formato-dati.txt"));
+        m.loadFromFile(new File("./output.txt"));
     }
 }
