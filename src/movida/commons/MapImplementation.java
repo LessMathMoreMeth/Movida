@@ -1,9 +1,4 @@
-* Progetto Movida.
-        * Corso di Algoritmi e Strutture Dati
-        * Laurea in Informatica, UniBO, a.a. 2019/2020
-        *
-        */
-        package movida.commons;
+package movida.commons;
 
 /**
  *

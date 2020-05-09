@@ -21,7 +21,7 @@ import movida.campomoritabanelli.Comparabile;
  * per recupare le informazioni caratterizzanti di un film.
  *
  */
-public class Movie {
+public class Movie implements Comparabile {
 
     private String title;
     private Integer year;
