@@ -9,6 +9,7 @@ public class MovidaCore implements IMovidaDB{
     Movie[] m;
 
     public MovidaCore(){
+        this.m=null;
         this.utils=new DBUtils();
     }
 
@@ -33,7 +34,8 @@ public class MovidaCore implements IMovidaDB{
 
     public static void main(String[] args){
         MovidaCore m=new MovidaCore();
-        m.loadFromFile(new File("./esempio-formato-dati.txt"));
-        m.loadFromFile(new File("./output.txt"));
+        System.out.println(System.getProperty("user.dir"));
+        m.loadFromFile(new File("esempio-formato-dati.txt"));
+        m.saveToFile(new File("output.txt"));
     }
 }
