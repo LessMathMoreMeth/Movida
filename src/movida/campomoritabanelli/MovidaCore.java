@@ -33,9 +33,8 @@ public class MovidaCore implements IMovidaDB{
     public Person[] getAllPeople(){return null;}
 
     public static void main(String[] args){
-        MovidaCore m=new MovidaCore();
-        System.out.println(System.getProperty("user.dir"));
+        /*MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt"));
-        m.saveToFile(new File("output.txt"));
+        m.saveToFile(new File("output.txt"));*/
     }
 }

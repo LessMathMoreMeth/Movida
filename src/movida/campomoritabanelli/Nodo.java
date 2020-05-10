@@ -1,39 +1,136 @@
 package movida.campomoritabanelli;
 
-import java.util.Dictionary;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Nodo <K extends Comparable<K>,V>{
-    private K[] keys;
+    private K keyLeft;
+    private K keyCentral;
     private Nodo father;
     private V value;
-    private Nodo[] childs;
+    private Nodo childLeft;
+    private Nodo childCentral;
+    private Nodo childRight;
+    private Nodo tmp;//nodo temporaneo di inserimento quando si hanno 3 figli
+
+    public Nodo(){//creo un nodo interno
+        this.keyLeft=null;
+        this.keyCentral=null;
+        this.father=null;
+        this.childLeft=null;
+        this.childCentral=null;
+        this.childRight=null;
+        this.tmp=null;
+        this.value=null;
+    }
 
     public Nodo(K key,V value){//creo un nodo foglia
-        this.keys[0]=key;//il nodo foglia avrà solo una chiave,sulla sinistra
+        this.keyLeft=key;//il nodo foglia avrà solo una chiave,sulla sinistra
+        this.keyCentral=null;
         this.father=null;
-        this.childs=new Nodo[3];
+        this.childLeft=null;
+        this.childCentral=null;
+        this.childRight=null;
+        this.tmp=null;
         this.value=value;
     }
 
-    public Nodo getLeftChild(){return this.childs[0];}
-    public void setLeftChild(Nodo<K,V> v){this.childs[0]=v;}
-    public Nodo getCentralChild(){return this.childs[1];}
-    public void setCentralChild(Nodo<K,V> v){this.childs[1]=v;}
-    public Nodo getRightChild(){return this.childs[2];}
-    public void setRightChild(Nodo<K,V> v){this.childs[2]=v;}
+    public Nodo getLeftChild(){return this.childLeft;}
+    public void setLeftChild(Nodo<K,V> v){this.childLeft=v;}
+    public Nodo getCentralChild(){return this.childCentral;}
+    public void setCentralChild(Nodo<K,V> v){this.childCentral=v;}
+    public Nodo getRightChild(){return this.childRight;}
+    public void setRightChild(Nodo<K,V> v){this.childRight=v;}
     public Nodo getFather(){return this.father;}
     public void setFather(Nodo<K,V> v){this.father=v;}
-    public K getLeftKey(){return this.keys[0];}
-    public void setLeftKey(K key){ this.keys[0]=key;}
-    public K getCentralKey(){return this.keys[1];}
-    public void setCentralKey(K key){ this.keys[1]=key;}
+    public K getLeftKey(){return this.keyLeft;}
+    public void setLeftKey(K key){ this.keyLeft=key;}
+    public K getCentralKey(){return this.keyCentral;}
+    public void setCentralKey(K key){ this.keyCentral=key;}
     public V getValue(){return this.value;}
     public void setValue(V value){ this.value=value;}
 
-    public boolean is2Node(){return this.childs.length==2;}
-    public boolean is3Node(){return this.childs.length==3;}
-    public boolean isLeaf(){//è una foglia se la chiave interna e il valore non sono nulli
-        return (this.childs.length==0);
+    public boolean is2Node(){
+        return (this.childLeft!=null && this.childCentral !=null && this.childRight==null);
+    }
+    public boolean is3Node(){
+        return (this.childLeft!=null && this.childCentral !=null && this.childRight!=null);
+    }
+    public boolean hasOnlyChildsLeafs(){
+        boolean flag=false;
+        if(childLeft!=null){
+            flag=childLeft.isLeaf();
+        }
+        if(childCentral!=null){
+            flag=childCentral.isLeaf();
+        }
+        if (childRight!=null){
+            flag=childRight.isLeaf();
+        }
+        return flag;
     }
 
+    public boolean isLeaf(){//è una foglia se non ha figli
+        return (this.childLeft==null);
+    }
+
+    public void addKeys(K key1,K key2){
+        if(key1.compareTo(key2)<0){
+            this.keyLeft=key1;
+            this.keyCentral=key2;
+        }else{
+            this.keyLeft=key2;
+            this.keyCentral=key1;
+        }
+    }
+
+    public boolean has4Child(){
+        return (this.childLeft!=null &&this.childCentral!=null &&this.childRight!=null &&this.tmp!=null );
+    }
+
+    public void addChild(Nodo v){
+        K key=(K)v.getLeftKey();
+        if (this.is2Node()){
+            if(key.compareTo(this.keyLeft)<0){//se la chiave è la +piccola,swappo tutto sulla destra destra
+                this.keyCentral=this.keyLeft;
+                this.keyLeft=key;
+                this.tmp=this.childRight;
+                this.childRight=this.childCentral;
+                this.childCentral=this.childLeft;
+                this.childLeft=v;
+            }else if(key.compareTo(this.keyCentral)<0){//se la chiave è più piccola rispetto a quella centrale, swappo a destra dal centro
+                this.keyCentral=key;
+                this.tmp=this.childRight;
+                this.childRight=this.childCentral;
+                this.childCentral=v;
+            }else{
+                this.childRight=v;
+            }
+        }else{
+            this.insert4Child(v,key);
+        }
+    }
+
+    public void insert4Child(Nodo v,K key){
+        if(key.compareTo(this.keyLeft)<0){//se la chiave è la +piccola,swappo tutto sulla destra destra
+            this.keyCentral=this.keyLeft;
+            this.keyLeft=key;
+            this.tmp=this.childRight;
+            this.childRight=this.childCentral;
+            this.childCentral=this.childLeft;
+            this.childLeft=v;
+        }else if(key.compareTo(this.keyCentral)<0){//se la chiave è più piccola rispetto a quella centrale, swappo a destra dal centro
+            this.keyCentral=key;
+            this.tmp=this.childRight;
+            this.childRight=this.childCentral;
+            this.childCentral=v;
+        }else{
+            if(key.compareTo((K) this.getRightChild().getLeftKey())<0){
+                this.tmp=this.childRight;
+                this.childRight=v;
+            }else{
+                this.tmp=v;
+            }
+        }
+    }
 }
