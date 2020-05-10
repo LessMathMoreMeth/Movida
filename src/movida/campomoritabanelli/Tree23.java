@@ -11,6 +11,10 @@ public class Tree23 <K extends Comparable<K>,V> implements Dizionario {
         return this.root;
     }
 
+    public void setRoot(Nodo v){
+        this.root=v;
+    }
+
     public V search(Nodo root,K key) {
         if (root == null) {
             return null;
@@ -24,7 +28,7 @@ public class Tree23 <K extends Comparable<K>,V> implements Dizionario {
             } else {
                 if (key.compareTo((K) root.getLeftKey()) <0) {//se è minore della chiave sinistra
                     return search(root.getLeftChild(), key);//vai a sinistra
-                } else if (key.compareTo((K) root.getLeftKey())>0 && key.compareTo((K) root.getCentralKey()) <=-1){//se  la chiave è maggiore alla chiave sinistra e minore alla chiave centrale allora vai al centro
+                } else if (key.compareTo((K) root.getLeftKey())>0 && key.compareTo((K) root.getCentralKey()) <=0){//se  la chiave è maggiore alla chiave sinistra e minore alla chiave centrale allora vai al centro
                     return search(root.getCentralChild(), key);
                 } else {
                     return search(root.getRightChild(), key);//altrimenti vai a destra
@@ -37,10 +41,13 @@ public class Tree23 <K extends Comparable<K>,V> implements Dizionario {
         if(root==null){//se l'albero è vuoto
             this.root=new Nodo(key,value);;
         }else if(root.isLeaf()){//se l'albero ha solo un nodo foglia
-            Nodo m=root;
+            Nodo m=new Nodo();
+            Nodo v=root;
+            this.setRoot(m);
             Nodo l=new Nodo(key,value);
-            root=new Nodo();
-            root.addKeys(key,m.getLeftKey());
+            l.setFather(m);
+            v.setFather(m);
+            m.add(v,l);
         }else{//altrimenti è composto
            this.insertHelp(root,key,value);
         }

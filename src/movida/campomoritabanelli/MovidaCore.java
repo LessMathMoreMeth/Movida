@@ -36,5 +36,10 @@ public class MovidaCore implements IMovidaDB{
         /*MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt"));
         m.saveToFile(new File("output.txt"));*/
+        Tree23<String,Integer> t=new Tree23<>();
+        t.insert(t.getRoot(),"ciao",5);
+        t.insert(t.getRoot(),"ciaov",6);
+        t.insert(t.getRoot(),"cicco",7);
+        System.out.println(t.search(t.getRoot(),"cicco"));
     }
 }

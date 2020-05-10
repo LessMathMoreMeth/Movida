@@ -74,13 +74,19 @@ public class Nodo <K extends Comparable<K>,V>{
         return (this.childLeft==null);
     }
 
-    public void addKeys(K key1,K key2){
+    public void add(Nodo v1,Nodo v2){
+        K key1= (K) v1.getLeftKey();
+        K key2= (K) v2.getLeftKey();
         if(key1.compareTo(key2)<0){
             this.keyLeft=key1;
+            this.childLeft=v1;
             this.keyCentral=key2;
+            this.childCentral=v2;
         }else{
             this.keyLeft=key2;
+            this.childLeft=v2;
             this.keyCentral=key1;
+            this.childCentral=v1;
         }
     }
 
