@@ -117,6 +117,33 @@ public class Nodo <K extends Comparable<K>,V>{
         }
     }
 
+    public Nodo getValidBrother(Nodo v){
+        Nodo padre=v.getFather();
+        if(padre.getLeftChild()==v){//se è il figlio sinistro
+            return padre.getCentralChild();
+        }else if(padre.getCentralChild()==v){
+            return padre.getLeftChild();
+        }else{
+            return padre.getCentralChild();
+        }
+    }
+
+    public void deleteChild(Nodo child){
+        if(this.getLeftChild()==child){//se cancello il figlio sinistro
+            child.setFather(null);
+            this.setLeftChild(this.getCentralChild());//swappo verso sinistra i figli
+            this.setCentralChild(this.getRightChild());
+            this.setLeftKey(this.getCentralKey());//swappo la chiave centrale a sinistra
+        }else if(this.getCentralChild()==child){//se cancello il figlio centrale
+            child.setFather(null);
+            this.setCentralChild(this.getRightChild());
+            this.setCentralKey(null);
+        }if(this.getRightChild()==child){//se cancello il figlio destro
+            child.setFather(null);
+            this.setRightChild(null);
+        }
+    }
+
     public void insert4Child(Nodo v,K key){
         if(key.compareTo(this.keyLeft)<0){//se la chiave è la +piccola,swappo tutto sulla destra destra
             this.keyCentral=this.keyLeft;
@@ -125,17 +152,21 @@ public class Nodo <K extends Comparable<K>,V>{
             this.childRight=this.childCentral;
             this.childCentral=this.childLeft;
             this.childLeft=v;
+            v.setFather(this);
         }else if(key.compareTo(this.keyCentral)<0){//se la chiave è più piccola rispetto a quella centrale, swappo a destra dal centro
             this.keyCentral=key;
             this.tmp=this.childRight;
             this.childRight=this.childCentral;
             this.childCentral=v;
+            v.setFather(this);
         }else{
             if(key.compareTo((K) this.getRightChild().getLeftKey())<0){
                 this.tmp=this.childRight;
                 this.childRight=v;
+                v.setFather(this);
             }else{
                 this.tmp=v;
+                v.setFather(this);
             }
         }
     }
