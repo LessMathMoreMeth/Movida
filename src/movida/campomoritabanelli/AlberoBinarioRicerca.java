@@ -44,7 +44,7 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
         }
         return null;
     }
-    
+
     public void insertBR(NodoBR root, K key, V value){
         NodoBR p = null;
         while(root != null){
