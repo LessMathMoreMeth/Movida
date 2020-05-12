@@ -71,4 +71,22 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
     public void deleteBR(NodoBR root,K key){
 
     }
+
+    protected NodoBR findMax(NodoBR root){
+            NodoBR fd = root.getRightChild();
+            while(fd != null){
+                root = root.getRightChild();
+            }
+        return root;
+    }
+
+    protected NodoBR findMin(NodoBR root){
+            NodoBR fs = root.getLeftChild();
+            while(fs != null){
+                root = root.getLeftChild();
+            }
+        return root;
+    }
+
+
 }
