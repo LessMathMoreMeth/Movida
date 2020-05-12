@@ -3,26 +3,27 @@ package movida.campomoritabanelli;
 import java.util.Dictionary;
 
 public class NodoBR <K extends Comparable<K>,V>{
-    private K[] keys;
-    private NodoBR father;
+    private K key;
     private V value;
-    private NodoBR left;
-    private NodoBR right;
+    private NodoBR childleft;
+    private NodoBR childright;
 
     public NodoBR(K key,V value){//creo un nodo foglia
-        this.keys[0]=key;//il nodo foglia avrà solo una chiave,sulla sinistra
-        this.father = null;
-        this.left = null;
-        this.right = null;
+        this.key = key;
+        this.childleft = null;
+        this.childright = null;
         this.value = value;
     }
     
     public V getValue(){return value;}
+    public K getKey(){return key;}
     
-    public void setLeftChild(NodoBR<K,V> v){this.left = v;}
-    public void setRightChild(NodoBR<K,V> v){this.right = v;}
-    public NodoBR getLeftChild(){return this.left;}
-    public NodoBR getRightChild(){return this.right;}
+    public void setLeftChild(NodoBR<K,V> v){this.childleft = v;}
+    public void setRightChild(NodoBR<K,V> v){this.childright = v;}
+    public NodoBR getLeftChild(){return this.childleft;}
+    public NodoBR getRightChild(){return this.childright;}
+
+    public boolean isLeaf(){return (childright== null & childleft == null);}
 }
 
 /*
