@@ -80,6 +80,13 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
         return root;
     }
 
+    /*protected NodoBR findMax(NodoBR root){//esempio luca
+        while(root != null && root.getRightChild()!=null){//se non c'è il figlio destro,ritorno direttamente il nodo su cui si chiama max
+            root = root.getRightChild();// oppure finchè ha figli destri,visitali e aggiorna il puntatore all'ingiù
+        }
+        return root;
+    }*/
+
     protected NodoBR findMin(NodoBR root){
             NodoBR fs = root.getLeftChild();
             while(fs != null){
