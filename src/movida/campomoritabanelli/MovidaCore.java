@@ -32,15 +32,17 @@ public class MovidaCore implements IMovidaDB{
     public Movie[] getAllMovies(){return null;}
     public Person[] getAllPeople(){return null;}
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         /*MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt"));
         m.saveToFile(new File("output.txt"));*/
-        Tree23<String,Integer> t=new Tree23<>();
-        t.insert("ciao",5);
-        t.insert("ciaov",6);
-        t.insert("cicco",7);
-        //t.delete(t.getRoot(),"cicco");
-        System.out.println(t.search("cicco"));
+        AlberoBinarioRicerca<String, Integer> t = new AlberoBinarioRicerca<>();
+        t.insert( "6", 6);
+        t.insert( "2", 2);
+        t.insert( "1", 1);
+        t.insert( "4", 4);
+        t.insert( "3", 3);
+        t.insert( "5", 5);
+        System.out.println(t.search( "4"));
     }
 }

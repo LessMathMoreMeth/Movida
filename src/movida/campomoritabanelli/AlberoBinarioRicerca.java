@@ -33,33 +33,26 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
     ///////////////////////////////////////////////////////////////
 
     public V searchBR(NodoBR root, K key) {
-        if (root == null) {
-            return null;
-        } else {
-            if (root.isLeaf()) {//se è una foglia
-                if (root.getKey().compareTo(key) == 0) {//sono uguali
-                    return (V) root.getValue();
-                } else {
-                    return null;
-                }
-            } else {
-                if (key.compareTo((K) root.getKey()) < 0) {//se è minore della chiave sinistra
-                    return searchBR(root.getLeftChild(), key);//vai a sinistra
-                } else {
-                    return searchBR(root.getRightChild(), key);//altrimenti vai a destra
-                }
+        while(root!=null){
+            if(key.compareTo((K) root.getKey())==0){
+                return (V)root.getValue();
+            }else if(key.compareTo((K)root.getKey())<0){
+                root=root.getLeftChild();
+            }else{
+                root=root.getRightChild();
             }
         }
+        return null;
     }
-
+    
     public void insertBR(NodoBR root, K key, V value){
         NodoBR p = null;
         while(root != null){
             p = root;
-            if(root.getKey().compareTo(key) >0){
-                root = root.getLeftChild();
-            } else {
+            if(root.getKey().compareTo(key) <0){
                 root = root.getRightChild();
+            } else {
+                root = root.getLeftChild();
             }
         }
         NodoBR n = new NodoBR(key,value);
