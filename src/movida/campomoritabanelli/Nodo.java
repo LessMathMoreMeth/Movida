@@ -97,7 +97,7 @@ public class Nodo <K extends Comparable<K>,V>{
     public void addChild(Nodo v){
         K key=(K)v.getLeftKey();
         if (this.is2Node()){
-            if(key.compareTo(this.keyLeft)<0){//se la chiave è la +piccola,swappo tutto sulla destra destra
+            if(key.compareTo(this.keyLeft)<0){//se la chiave è la +piccola,swappo tutto sulla destra 
                 this.keyCentral=this.keyLeft;
                 this.keyLeft=key;
                 this.tmp=this.childRight;

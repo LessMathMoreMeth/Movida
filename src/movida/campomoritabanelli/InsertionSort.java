@@ -2,14 +2,14 @@ package movida.campomoritabanelli;
 
 public class InsertionSort implements Sorting {
 
-    public void sort(String field,Comparabile A[]){
+    public void sort(String field, MyComp A[]){
         this.insertionSort(field, A);
     }
 
-    public void insertionSort(String field,Comparabile A[]) {
+    public void insertionSort(String field, MyComp A[]) {
         for (int k = 1; k <= A.length - 1; k++) {
             int j;
-            Comparabile x = A[k];
+            MyComp x = A[k];
             for (j = 0; j < k; j++)
                 if (A[j].compareChoice(field,x) > 0) break;
             if (j < k) {

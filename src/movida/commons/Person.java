@@ -8,7 +8,7 @@
  */
 package movida.commons;
 
-import movida.campomoritabanelli.Comparabile;
+import movida.campomoritabanelli.MyComp;
 
 /**
  * Classe usata per rappresentare una persona, attore o regista,
@@ -22,7 +22,7 @@ import movida.campomoritabanelli.Comparabile;
  * La classe pu� essere modicata o estesa ma deve implementare il metodo getName().
  *
  */
-public class Person implements Comparabile {
+public class Person implements MyComp {
 
     private String name;
 
@@ -30,7 +30,7 @@ public class Person implements Comparabile {
         this.name = name;
     }
 
-    public int compareChoice(String field,Comparabile o){
+    public int compareChoice(String field, MyComp o){
         Person v=(Person)o;
         if(field.equals("name")){
             return this.name.compareTo(v.getName());

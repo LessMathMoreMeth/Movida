@@ -1,21 +1,34 @@
 package movida.campomoritabanelli;
 
-public class Tree23 <K extends Comparable<K>,V> implements Dizionario {
+public class Tree23 <K extends Comparable<K>,V> implements Dizionario<K,V> {
     private Nodo<K,V> root;
 
     public Tree23(){
         this.root=null;
     }
 
-    public Nodo getRoot(){
-        return this.root;
-    }
-
+    public Nodo getRoot(){ return this.root; }
     public void setRoot(Nodo v){
         this.root=v;
     }
 
-    public V search(Nodo root,K key) {
+    @Override
+    public void insert(K key, V value) {
+        Nodo tmp=root;
+        this.insertTree(this.root,(K)key,(V) value);
+    }
+
+    @Override
+    public V search(K key) {
+       return this.searchTree(this.root,(K) key);
+    }
+
+    @Override
+    public void delete(K key) {
+        this.deleteTree(this.root,key);
+    }
+
+    public V searchTree(Nodo root,K key) {
         if (root == null) {
             return null;
         } else {
@@ -27,17 +40,17 @@ public class Tree23 <K extends Comparable<K>,V> implements Dizionario {
                 }
             } else {
                 if (key.compareTo((K) root.getLeftKey()) <0) {//se è minore della chiave sinistra
-                    return search(root.getLeftChild(), key);//vai a sinistra
+                    return searchTree(root.getLeftChild(), key);//vai a sinistra
                 } else if (key.compareTo((K) root.getLeftKey())>0 && key.compareTo((K) root.getCentralKey()) <=0){//se  la chiave è maggiore alla chiave sinistra e minore alla chiave centrale allora vai al centro
-                    return search(root.getCentralChild(), key);
+                    return searchTree(root.getCentralChild(), key);
                 } else {
-                    return search(root.getRightChild(), key);//altrimenti vai a destra
+                    return searchTree(root.getRightChild(), key);//altrimenti vai a destra
                 }
             }
         }
     }
 
-    public void insert(Nodo root,K key,V value){
+    public void insertTree(Nodo root,K key,V value){
         if(root==null){//se l'albero è vuoto
             this.root=new Nodo(key,value);;
         }else if(root.isLeaf()){//se l'albero ha solo un nodo foglia
@@ -53,7 +66,7 @@ public class Tree23 <K extends Comparable<K>,V> implements Dizionario {
         }
     }
 
-    public void delete(Nodo root,K key){
+    public void deleteTree(Nodo root,K key){
         if(root!=null) {//se l'albero non è vuoto
             Nodo v=this.searchDelete(root, key);
             if(v!=null){
@@ -113,7 +126,6 @@ public class Tree23 <K extends Comparable<K>,V> implements Dizionario {
             }
         }
     }
-
 
     public void insertHelp(Nodo root,K key,V value){
         Nodo padre=this.find(root,key);

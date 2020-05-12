@@ -8,7 +8,7 @@
  */
 package movida.commons;
 
-import movida.campomoritabanelli.Comparabile;
+import movida.campomoritabanelli.MyComp;
 
 /**
  * Classe usata per rappresentare un film
@@ -21,7 +21,7 @@ import movida.campomoritabanelli.Comparabile;
  * per recupare le informazioni caratterizzanti di un film.
  *
  */
-public class Movie implements Comparabile {
+public class Movie implements MyComp {
 
     private String title;
     private Integer year;
@@ -58,7 +58,7 @@ public class Movie implements Comparabile {
         return this.director;
     }
 
-    public int compareChoice(String field, Comparabile o){
+    public int compareChoice(String field, MyComp o){
         Movie v=(Movie)o;
         if(field.equals("year")){
             return this.getYear().compareTo(v.getYear());
