@@ -14,10 +14,10 @@ public class NodoBR <K extends Comparable<K>,V>{
         this.childright = null;
         this.value = value;
     }
+
     
     public V getValue(){return value;}
     public K getKey(){return key;}
-    
     public void setLeftChild(NodoBR<K,V> v){this.childleft = v;}
     public void setRightChild(NodoBR<K,V> v){this.childright = v;}
     public NodoBR getLeftChild(){return this.childleft;}
