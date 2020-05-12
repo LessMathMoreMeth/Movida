@@ -5,6 +5,7 @@ import java.util.Dictionary;
 public class NodoBR <K extends Comparable<K>,V>{
     private K key;
     private V value;
+    private NodoBR parent;
     private NodoBR childleft;
     private NodoBR childright;
 
@@ -18,6 +19,7 @@ public class NodoBR <K extends Comparable<K>,V>{
     
     public V getValue(){return value;}
     public K getKey(){return key;}
+    public void setParent(NodoBR<K,V> v){this.parent = v;}
     public void setLeftChild(NodoBR<K,V> v){this.childleft = v;}
     public void setRightChild(NodoBR<K,V> v){this.childright = v;}
     public NodoBR getLeftChild(){return this.childleft;}

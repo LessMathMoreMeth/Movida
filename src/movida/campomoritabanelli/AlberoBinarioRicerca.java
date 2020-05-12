@@ -1,6 +1,6 @@
 package movida.campomoritabanelli;
 
-public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Dizionario {
+public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Dizionario<K,V>{
 
     private NodoBR<K, V> root;
 
@@ -15,8 +15,24 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
     public void setRoot(NodoBR v) {
         this.root = v;
     }
+    //////////////////////////////////////////////////////////////
+    @Override
+    public void insert(K key, V value) {
+        NodoBR tmp=root;
+        this.insertBR(tmp,(K)key,(V) value);
+    }
+    @Override
+    public V search(K key) {
+        return this.searchBR(this.root,(K) key);
+    }
 
-    public V search(NodoBR root, K key) {
+    @Override
+    public void delete(K key) {
+        this.deleteBR(this.root,key);
+    }
+    ///////////////////////////////////////////////////////////////
+
+    public V searchBR(NodoBR root, K key) {
         if (root == null) {
             return null;
         } else {
@@ -28,31 +44,38 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
                 }
             } else {
                 if (key.compareTo((K) root.getKey()) < 0) {//se è minore della chiave sinistra
-                    return search(root.getLeftChild(), key);//vai a sinistra
+                    return searchBR(root.getLeftChild(), key);//vai a sinistra
                 } else {
-                    return search(root.getRightChild(), key);//altrimenti vai a destra
+                    return searchBR(root.getRightChild(), key);//altrimenti vai a destra
                 }
             }
         }
     }
 
-    public void insert(NodoBR nodo, K key, V value) {
-        if (root == null) {
-            this.root = new NodoBR(key, value);
-        } else if (root.isLeaf()) {
-            if(root.getKey().compareTo(key) <=0){
-                root.setLeftChild(nodo);
+    public void insertBR(NodoBR root, K key, V value){
+        NodoBR p = null;
+        while(root != null){
+            p = root;
+            if(root.getKey().compareTo(key) >0){
+                root = root.getLeftChild();
             } else {
-                root.setRightChild(nodo);
-            }
-        } else {
-            if (key.compareTo((K) root.getKey()) <=0){
-                NodoBR m = root.getLeftChild();
-                insert(m,key,value);
-            } else {
-                NodoBR m = root.getRightChild();
-                insert(m, key, value);
+                root = root.getRightChild();
             }
         }
+        NodoBR n = new NodoBR(key,value);
+        n.setParent(p);
+        if(p == null){
+            this.setRoot(n);
+        } else {
+            if(key.compareTo((K) p.getKey()) <0){
+                p.setLeftChild(n);
+            } else {
+                p.setRightChild(n);
+            }
+        }
+    }
+
+    public void deleteBR(NodoBR root,K key){
+
     }
 }
