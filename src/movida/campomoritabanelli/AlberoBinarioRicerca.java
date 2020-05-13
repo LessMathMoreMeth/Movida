@@ -102,4 +102,20 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
         }
     }
 
+    protected NodoBR predecessore(NodoBR root){
+        if(root == null){
+            return null;
+        }
+        if(root.getLeftChild() != null){
+            return findMax(root.getLeftChild());
+        } else {
+            NodoBR parent = root.getParent();
+            while(parent != null && root == parent.getLeftChild()){
+                root = parent;
+                parent = parent.getParent();
+            }
+            return parent;
+        }
+    }
+
 }
