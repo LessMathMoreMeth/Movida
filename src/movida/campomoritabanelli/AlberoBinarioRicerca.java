@@ -73,27 +73,19 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
     }
 
     protected NodoBR findMax(NodoBR root){
-            NodoBR fd = root.getRightChild();
-            while(fd != null){
+            while(root != null && root.getRightChild()!= null){
                 root = root.getRightChild();
             }
         return root;
     }
 
-    /*protected NodoBR findMax(NodoBR root){//esempio luca
-        while(root != null && root.getRightChild()!=null){//se non c'è il figlio destro,ritorno direttamente il nodo su cui si chiama max
-            root = root.getRightChild();// oppure finchè ha figli destri,visitali e aggiorna il puntatore all'ingiù
+    protected NodoBR findMin(NodoBR root){
+        while(root != null && root.getLeftChild()!= null){
+            root = root.getLeftChild();
         }
         return root;
-    }*/
-
-    protected NodoBR findMin(NodoBR root){
-            NodoBR fs = root.getLeftChild();
-            while(fs != null){
-                root = root.getLeftChild();
-            }
-        return root;
     }
+
 
 
 }

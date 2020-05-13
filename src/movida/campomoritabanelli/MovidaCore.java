@@ -43,7 +43,9 @@ public class MovidaCore implements IMovidaDB{
         t.insert( "4", 4);
         t.insert( "3", 3);
         t.insert( "5", 5);
-        NodoBR test=t.getRoot().getLeftChild().getLeftChild();
+        t.insert( "7", 7);
+        NodoBR test=t.getRoot();
         System.out.println(t.findMax(test).getKey());
+        System.out.println(t.findMin(test).getKey());
     }
 }
