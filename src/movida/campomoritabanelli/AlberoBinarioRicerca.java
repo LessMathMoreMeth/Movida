@@ -1,5 +1,7 @@
 package movida.campomoritabanelli;
 
+import java.util.ArrayList;
+
 public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Dizionario<K,V>{
 
     private NodoBR<K, V> root;
@@ -160,7 +162,36 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
         return null;
     }
 
-    
+    public V[] values(){
+        NodoBR tmp=this.root;
+        ArrayList<V> vals=new ArrayList<>();
+        this.preOrderValues(vals,root);
+        V[] values = (V[]) new Object[vals.size()];
+        return vals.toArray(values);
+    }
 
+    public K[] keys(){
+        NodoBR tmp=this.root;
+        ArrayList<K> vals=new ArrayList<>();
+        this.preOrderKeys(vals,root);
+        K[] values = (K[]) new Object[vals.size()];
+        return vals.toArray(values);
+    }
+
+    void preOrderKeys(ArrayList<K> store,NodoBR root) {
+        if(root != null) {
+            store.add((K) root.getKey());
+            preOrderKeys(store,root.getLeftChild());
+            preOrderKeys(store,root.getRightChild());
+        }
+    }
+
+    void preOrderValues(ArrayList<V> store,NodoBR root) {
+        if(root != null) {
+            store.add((V) root.getValue());
+            preOrderValues(store,root.getLeftChild());
+            preOrderValues(store,root.getRightChild());
+        }
+    }
 
 }
