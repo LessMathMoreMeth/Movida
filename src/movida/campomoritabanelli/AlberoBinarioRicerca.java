@@ -162,20 +162,18 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
         return null;
     }
 
-    public V[] values(){
+    public ArrayList<V> values(){
         NodoBR tmp=this.root;
         ArrayList<V> vals=new ArrayList<>();
-        this.preOrderValues(vals,root);
-        V[] values = (V[]) new Object[vals.size()];
-        return vals.toArray(values);
+        this.preOrderValues(vals,tmp);
+        return vals;
     }
 
-    public K[] keys(){
+    public ArrayList<K> keys(){
         NodoBR tmp=this.root;
         ArrayList<K> vals=new ArrayList<>();
-        this.preOrderKeys(vals,root);
-        K[] values = (K[]) new Object[vals.size()];
-        return vals.toArray(values);
+        this.preOrderKeys(vals,tmp);
+        return vals;
     }
 
     void preOrderKeys(ArrayList<K> store,NodoBR root) {

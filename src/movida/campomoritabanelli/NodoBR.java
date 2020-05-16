@@ -16,10 +16,9 @@ public class NodoBR <K extends Comparable<K>,V>{
         this.childright = null;
         this.value = value;
     }
-
     
-    public V getValue(){return value;}
-    public K getKey(){return key;}
+    public V getValue(){return this.value;}
+    public K getKey(){return this.key;}
     public void setKey(K key){this.key = key;}
     public void setValue(V value){this.value = value;}
     public NodoBR getParent(){return parent;}

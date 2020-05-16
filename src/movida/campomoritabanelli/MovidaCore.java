@@ -2,6 +2,8 @@ package movida.campomoritabanelli;
 import movida.commons.*;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
 
 
 public class MovidaCore implements IMovidaDB{
@@ -45,6 +47,11 @@ public class MovidaCore implements IMovidaDB{
         t.insert( 3, 3);
         t.insert( 6, 6);
         t.insert( 5, 5);
+        Integer[] f=new Integer[0];
+        f= t.values().toArray(f);
+        for(int i=0;i<f.length;i++){
+            System.out.println(f[i]);
+        }
         /*NodoBR test=t.getRoot().getLeftChild().getLeftChild().getRightChild();
         System.out.println(test.getKey()); //6
         System.out.println(t.getRoot().getLeftChild().getKey()); //7
