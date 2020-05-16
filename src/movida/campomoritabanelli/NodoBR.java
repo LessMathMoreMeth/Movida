@@ -11,6 +11,7 @@ public class NodoBR <K extends Comparable<K>,V>{
 
     public NodoBR(K key,V value){//creo un nodo foglia
         this.key = key;
+        this.parent = null;
         this.childleft = null;
         this.childright = null;
         this.value = value;
@@ -19,6 +20,8 @@ public class NodoBR <K extends Comparable<K>,V>{
     
     public V getValue(){return value;}
     public K getKey(){return key;}
+    public void setKey(K key){this.key = key;}
+    public void setValue(V value){this.value = value;}
     public NodoBR getParent(){return parent;}
     public void setParent(NodoBR<K,V> v){this.parent = v;}
     public void setLeftChild(NodoBR<K,V> v){this.childleft = v;}
@@ -26,7 +29,41 @@ public class NodoBR <K extends Comparable<K>,V>{
     public NodoBR getLeftChild(){return this.childleft;}
     public NodoBR getRightChild(){return this.childright;}
 
-    public boolean isLeaf(){return (childright== null & childleft == null);}
+    public boolean isLeaf(){return (childright == null & childleft == null);}
+
+    public void deleteLeaf(NodoBR Node){
+            if(this.getLeftChild() == Node){
+                this.setLeftChild(null);
+        } else if(this.getRightChild() == Node){
+                this.setRightChild(null);
+            }
+    }
+
+    public boolean isRightChild(){
+        NodoBR parent = this.parent;
+        if(parent.getRightChild() == this){
+            return true;
+        } else return false;
+    }
+    public boolean isLeftChild(){
+        NodoBR parent = this.parent;
+        if(parent.getLeftChild() == this){
+            return true;
+        } else return false;
+    }
+
+    public boolean hasOneChild(){
+        if((this.getRightChild() != null && this.getLeftChild() == null) || (this.getRightChild() == null && this.getLeftChild() != null)){
+            return true;
+        } else return false;
+    }
+
+    public NodoBR getChild(){
+        if(this.getLeftChild() != null){
+            return this.getLeftChild();
+        } else return this.getRightChild();
+    }
+
 }
 
 /*

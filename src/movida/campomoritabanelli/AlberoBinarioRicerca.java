@@ -23,12 +23,14 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
     }
     @Override
     public V search(K key) {
-        return this.searchBR(this.root,(K) key);
+        NodoBR tmp=root;
+        return this.searchBR(tmp,(K) key);
     }
 
     @Override
     public void delete(K key) {
-        this.deleteBR(this.root,key);
+        NodoBR tmp=root;
+        this.deleteBR(tmp,key);
     }
     ///////////////////////////////////////////////////////////////
 
@@ -49,10 +51,10 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
         NodoBR p = null;
         while(root != null){
             p = root;
-            if(root.getKey().compareTo(key) <0){
-                root = root.getRightChild();
-            } else {
+            if(root.getKey().compareTo(key) >0){
                 root = root.getLeftChild();
+            } else {
+                root = root.getRightChild();
             }
         }
         NodoBR n = new NodoBR(key,value);
@@ -69,13 +71,41 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
     }
 
     public void deleteBR(NodoBR root,K key){
-
+        NodoBR Node = searchNode(root,key);
+        if(Node != null){
+            if(Node.isLeaf()){
+               NodoBR parent = Node.getParent();
+                parent.deleteLeaf(Node);
+            }
+            if(Node.hasOneChild()){
+                NodoBR f = Node.getChild();
+                NodoBR padre = Node.getParent();
+                if(Node.isRightChild()){
+                    padre.setRightChild(f);
+                }else {
+                    padre.setLeftChild(f);
+                }
+                f.setParent(padre);
+            } else {
+                NodoBR predecessore = this.predecessore(Node); // 4
+                NodoBR childPredecessore = predecessore.getChild(); // 3
+                NodoBR padrePredecessore = predecessore.getParent(); // 7
+                if(predecessore.isRightChild()){
+                    padrePredecessore.setRightChild(childPredecessore);
+                } else {
+                    padrePredecessore.setLeftChild(childPredecessore);
+                }
+                childPredecessore.setParent(padrePredecessore);
+                Node.setKey(predecessore.getKey());
+                Node.setValue(predecessore.getValue());
+            }
+        }
     }
 
     protected NodoBR findMax(NodoBR root){
-            while(root != null && root.getRightChild()!= null){
-                root = root.getRightChild();
-            }
+        while(root != null && root.getRightChild()!= null){
+            root = root.getRightChild();
+        }
         return root;
     }
 
@@ -117,5 +147,20 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
             return parent;
         }
     }
+    public NodoBR searchNode(NodoBR root, K key) {
+        while(root!=null){
+            if(key.compareTo((K) root.getKey())==0){
+                return root;
+            }else if(key.compareTo((K)root.getKey())<0){
+                root=root.getLeftChild();
+            }else{
+                root=root.getRightChild();
+            }
+        }
+        return null;
+    }
+
+    
+
 
 }
