@@ -2,36 +2,58 @@ package movida.campomoritabanelli;
 import movida.commons.*;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.Dictionary;
 
 
 public class MovidaCore implements IMovidaDB{
     private DBUtils utils;
-    Movie[] m;
+    private Dizionario<String,Movie> movies;
 
     public MovidaCore(){
-        this.m=null;
+        this.movies=new AlberoBinarioRicerca<>();
         this.utils=new DBUtils();
     }
 
     public void loadFromFile(File f){
-        this.m=this.utils.load(f);
+        Movie[] m=this.utils.load(f);
+        for(int i=0;i<m.length;i++){
+            this.movies.insert(m[i].getTitle(),m[i]);
+        }
     }
 
     public void saveToFile(File f){
-        if( m!=null && m.length!=0){
-            this.utils.save(f,this.m);
+        Movie[] m=this.movies.values().toArray(new Movie[0]);//lo converto in un array di movie
+        if(m.length!=0){
+            this.utils.save(f,m);
         }
     }
 
     public void clear(){}
-    public int countMovies(){return 0;}
+
+    public int countMovies(){
+        Movie[] m=this.movies.values().toArray(new Movie[0]);
+        return m.length;
+    }
+
     public int countPeople(){return 0;}
-    public boolean deleteMovieByTitle(String title){return true;}
-    public Movie getMovieByTitle(String title){return null;}
+
+    public boolean deleteMovieByTitle(String title){
+        if (this.movies.search(title)!= null){
+            this.movies.delete(title);
+            return true;
+        }
+        return false;
+    }
+
+    public Movie getMovieByTitle(String title){
+        return this.movies.search(title);
+    }
+
     public Person getPersonByName(String name){return null;}
-    public Movie[] getAllMovies(){return null;}
+    public Movie[] getAllMovies(){
+        return this.movies.values().toArray(new Movie[0]);
+    }
+
     public Person[] getAllPeople(){return null;}
 
     public static void main(String[] args) {
