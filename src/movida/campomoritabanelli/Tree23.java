@@ -1,5 +1,7 @@
 package movida.campomoritabanelli;
 
+import java.util.ArrayList;
+
 public class Tree23 <K extends Comparable<K>,V> implements Dizionario<K,V> {
     private Nodo<K,V> root;
 
@@ -27,6 +29,43 @@ public class Tree23 <K extends Comparable<K>,V> implements Dizionario<K,V> {
     public void delete(K key) {
         this.deleteTree(this.root,key);
     }
+
+    //van fatte queste,per ora sono stubbate
+    public ArrayList<V> values(){
+        Nodo tmp=this.root;
+        ArrayList<V> vals=new ArrayList<>();
+        this.preOrderValues(vals,tmp);
+        return vals;
+    }
+    public ArrayList<K> keys(){
+        Nodo tmp=this.root;
+        ArrayList<K> vals=new ArrayList<>();
+        this.preOrderKeys(vals,tmp);
+        return vals;
+    }
+
+    void preOrderKeys(ArrayList<K> store,Nodo root) {
+        if(root != null) {
+            if(root.isLeaf()) {
+                store.add((K) root.getLeftKey());
+            }
+            preOrderKeys(store,root.getLeftChild());
+            preOrderKeys(store,root.getRightChild());
+            preOrderKeys(store,root.getCentralChild());
+        }
+    }
+
+    void preOrderValues(ArrayList<V> store,Nodo root) {
+        if(root != null) {
+            if(root.isLeaf()) {
+                store.add((V) root.getValue());
+            }
+            preOrderValues(store,root.getLeftChild());
+            preOrderValues(store,root.getRightChild());
+            preOrderValues(store,root.getCentralChild());
+        }
+    }
+
 
     public V searchTree(Nodo root,K key) {
         if (root == null) {

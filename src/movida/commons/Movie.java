@@ -40,6 +40,15 @@ public class Movie implements MyComp {
         return this.director;
     }
 
+    public int compareTo(Object movie){
+        Movie v=(Movie)movie;
+        return this.titleNormalize().compareTo(v.titleNormalize());
+    }
+
+    public String titleNormalize(){
+        return this.title.toLowerCase().trim().replaceAll("\\s","");
+    }
+
     public int compareChoice(String field, MyComp o){
         Movie v=(Movie)o;
         if(field.equals("year")){
@@ -56,6 +65,5 @@ public class Movie implements MyComp {
         }
         return c.substring(0,c.length()-2);//gli levo la virgola finale
     }
-
 }
 

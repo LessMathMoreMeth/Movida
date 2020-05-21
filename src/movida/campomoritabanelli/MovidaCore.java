@@ -17,7 +17,9 @@ public class MovidaCore implements IMovidaDB{
     public void loadFromFile(File f){
         Movie[] m=this.utils.load(f);
         for(int i=0;i<m.length;i++){
-            this.movies.insert(m[i].getTitle(),m[i]);
+            //"normalizzo" la chiave string,mettendola minuscola,senza spazi bianchi ai "bordi" e "all'interno"
+            String key=m[i].getTitle().toLowerCase().trim().replaceAll("\\s","");
+            this.movies.insert(key,m[i]);
         }
     }
 
@@ -28,7 +30,9 @@ public class MovidaCore implements IMovidaDB{
         }
     }
 
-    public void clear(){}
+    public void clear(){
+        this.movies=new AlberoBinarioRicerca<>();
+    }
 
     public int countMovies(){
         Movie[] m=this.movies.values().toArray(new Movie[0]);
@@ -46,7 +50,8 @@ public class MovidaCore implements IMovidaDB{
     }
 
     public Movie getMovieByTitle(String title){
-        return this.movies.search(title);
+        String key=title.toLowerCase().trim().replaceAll("\\s","");
+        return this.movies.search(key);
     }
 
     public Person getPersonByName(String name){return null;}
@@ -57,10 +62,14 @@ public class MovidaCore implements IMovidaDB{
     public Person[] getAllPeople(){return null;}
 
     public static void main(String[] args) {
-        /*MovidaCore m=new MovidaCore();
+        MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt"));
-        m.saveToFile(new File("output.txt"));*/
-        AlberoBinarioRicerca<Integer, Integer> t = new AlberoBinarioRicerca<>();
+        m.saveToFile(new File("output.txt"));
+        Movie[] v=m.getAllMovies();
+        for(int i=0;i<v.length;i++){
+            System.out.println(v[i].getTitle());
+        }
+        /*AlberoBinarioRicerca<Integer, Integer> t = new AlberoBinarioRicerca<>();
         t.insert( 9, 9);
         t.insert( 7, 7);
         t.insert( 10, 10);
