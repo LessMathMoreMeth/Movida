@@ -14,6 +14,16 @@ public class Collaboration {
 		this.movies = new ArrayList<Movie>();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		Collaboration c=(Collaboration) obj;
+		return (this.getActorA().equals(c.getActorA()) && this.getActorB().equals(c.getActorB()));
+	}
+
+	public void addMovie(Movie m){
+		this.movies.add(m);
+	}
+
 	public Person getActorA() {
 		return actorA;
 	}

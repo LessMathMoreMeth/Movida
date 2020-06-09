@@ -3,13 +3,16 @@ import movida.commons.*;
 
 import java.io.File;
 import java.util.Dictionary;
+import java.util.HashMap;
 
 
 public class MovidaCore implements IMovidaDB{
     private DBUtils utils;
     private Dizionario<String,Movie> movies;
+    private Graph grafo;
 
     public MovidaCore(){
+        this.grafo=new Graph();
         this.movies=new AlberoBinarioRicerca<>();
         this.utils=new DBUtils();
     }
@@ -20,6 +23,7 @@ public class MovidaCore implements IMovidaDB{
             //"normalizzo" la chiave string,mettendola minuscola,senza spazi bianchi ai "bordi" e "all'interno"
             String key=m[i].getTitle().toLowerCase().trim().replaceAll("\\s","");
             this.movies.insert(key,m[i]);
+            this.grafo.extractMovieCollaborations(m[i]);
         }
     }
 
@@ -66,9 +70,10 @@ public class MovidaCore implements IMovidaDB{
         m.loadFromFile(new File("esempio-formato-dati.txt"));
         m.saveToFile(new File("output.txt"));
         Movie[] v=m.getAllMovies();
-        for(int i=0;i<v.length;i++){
+        /*for(int i=0;i<v.length;i++){
             System.out.println(v[i].getTitle());
-        }
+        }*/
+        m.grafo.stampa();
         /*AlberoBinarioRicerca<Integer, Integer> t = new AlberoBinarioRicerca<>();
         t.insert( 9, 9);
         t.insert( 7, 7);

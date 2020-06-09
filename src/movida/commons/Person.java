@@ -49,15 +49,24 @@ public class Person implements MyComp {
         }
     }
 
+    public String nameNormalize(){
+        return this.name.toLowerCase().trim().replaceAll("\\s","");
+    }
+
     @Override
     public boolean equals(Object obj) {
         Person p=(Person) obj;
-        return this.getName().equals(p.getName());
+        return this.nameNormalize().equals(p.nameNormalize());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.nameNormalize().hashCode();
     }
 
     @Override
     public int compareTo(Object o) {
         Person p=(Person) o;
-        return this.getName().compareTo(p.getName());
+        return this.nameNormalize().compareTo(p.nameNormalize());
     }
 }
