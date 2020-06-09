@@ -48,4 +48,16 @@ public class Person implements MyComp {
            return 0;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Person p=(Person) obj;
+        return this.getName().equals(p.getName());
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Person p=(Person) o;
+        return this.getName().compareTo(p.getName());
+    }
 }
