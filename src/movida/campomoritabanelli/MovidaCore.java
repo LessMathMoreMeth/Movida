@@ -36,6 +36,7 @@ public class MovidaCore implements IMovidaDB{
 
     public void clear(){
         this.movies=new AlberoBinarioRicerca<>();
+        this.grafo=new Graph();
     }
 
     public int countMovies(){
