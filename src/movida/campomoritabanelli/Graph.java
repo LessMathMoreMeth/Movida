@@ -60,8 +60,6 @@ public class Graph {
     //questa classe interna,mi dovrebbe tenere ordinati, nella priorityQueue, le collaborazioni
     //in ordine DECRESCENTE in base allo score della collaborazione
     class SortCollaborations implements Comparator<Collaboration> {
-        // Used for sorting in ascending order of
-        // roll number
         public int compare(Collaboration a, Collaboration b) {
             return b.getScore().compareTo(a.getScore());
         }
