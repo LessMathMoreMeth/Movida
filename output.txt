@@ -37,7 +37,7 @@ Votes:755228
 Title: Scarface 	
 Year:1983
 Director: Brian De Palma  	
-Cast:movida.commons.Person@72174603,movida.commons.Person@c4371768,movida.commons.Person@94eb592
+Cast:movida.commons.Person@72174603,movida.commons.Person@c4371768,movida.commons.Person@94eb5928,movida.commons.Person@6046d12
 Votes:703754
 
 Title: The Sixth Sense 	

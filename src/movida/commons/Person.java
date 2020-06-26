@@ -29,13 +29,10 @@ import movida.campomoritabanelli.MyComp;
  *
  */
 public class Person implements MyComp {
-
     private String name;
-
     public Person(String name) {
         this.name = name;
     }
-
     public String getName(){
         return this.name;
     }
