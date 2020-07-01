@@ -1,6 +1,7 @@
 package movida.campomoritabanelli;
 import movida.commons.*;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -150,12 +151,83 @@ public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations
             return ret;
         }
     }
+    public Movie[] searchMoviesInYear(Integer year){
+        ArrayList<Movie> ret=new ArrayList<>();
+        Movie[] arr=this.movies.values().toArray(new Movie[0]);
+        for(Movie m:arr){
+            //System.out.println(m.getYear());
+            if(m.getYear().equals(year)){
+                ret.add(m);
+            }
+        }
+        return ret.toArray(new Movie[0]);
+    }
+    public Movie[] searchMoviesDirectedBy(String name){
+        ArrayList<Movie> ret=new ArrayList<>();
+        Movie[] arr=this.movies.values().toArray(new Movie[0]);
+        for(Movie m:arr){
+            if(m.getDirector().nameNormalize().equals(name.toLowerCase().trim().replaceAll("\\s",""))){
+                ret.add(m);
+            }
+        }
+        return ret.toArray(new Movie[0]);
+    }
+    public Movie[] searchMoviesStarredBy(String name){
+        ArrayList<Movie> ret=new ArrayList<>();
+        Movie[] arr=this.movies.values().toArray(new Movie[0]);
+        String Actor = name.toLowerCase().trim().replaceAll("\\s","");
+        for(Movie m:arr){
+            Person[] cast = m.getCast();
+            for(Person p:cast){
+                if(p.nameNormalize().equals(Actor)){
+                    ret.add(m);
+                    break;
+                }
+            }
+        }
+        return ret.toArray(new Movie[0]);
+    }
+    public Movie[] searchMostVotedMovies(Integer N){
+        Movie[] ret=new Movie[N];
+        Movie[] arr=this.movies.values().toArray(new Movie[0]);//casta da arraylist ad array di Movie
+        this.sorter.sort("votes", arr);
+        if(arr.length <=N){
+            return arr;
+        }else{
+            int i=0;
+            int j=arr.length-1;
+            while(i<N){
+                ret[i]=arr[j];
+                i++;
+                j--;
+            }
+            return ret;
+        }
+    }
+    public Person[] searchMostActiveActors(Integer N){
+        Person[] ret=new Person[N];
+        CardStar[] arr=this.cardStars.values().toArray(new CardStar[0]);//casta da arraylist ad array di Movie
+        this.sorter.sort("numFilm", arr);
+        if(arr.length <=N){
+            return arr;
+        }else{
+            int i=0;
+            int j=arr.length-1;
+            while(i<N){
+                ret[i]=arr[j];
+                i++;
+                j--;
+            }
+            return ret;
+        }
+    }
     ///---
 
     public static void main(String[] args) {
         MovidaCore m=new MovidaCore();
-        m.loadFromFile(new File("esempio-formato-dati.txt"));
-        Movie[] mo=m.searchMoviesByTitle(" The ");
+        //m.loadFromFile(new File("esempio-formato-dati.txt")); //PATH LUCA
+        m.loadFromFile(new File("C:\\Users\\Dario\\Desktop\\movida\\Movida\\esempio-formato-dati.txt")); //PATH DARIO
+        Movie[] mo=m.searchMoviesInYear(1993);
         for(Movie e:mo){
             System.out.println(e.getTitle());
         }

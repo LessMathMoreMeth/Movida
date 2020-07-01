@@ -20,8 +20,15 @@ public class AlberoBinarioRicerca <K extends Comparable<K>,V> implements Diziona
     //////////////////////////////////////////////////////////////
     @Override
     public void insert(K key, V value) {
-        NodoBR tmp=root;
-        this.insertBR(tmp,(K)key,(V) value);
+        V prova = this.search(key);
+        if(prova == null) {
+            NodoBR tmp = root;
+            this.insertBR(tmp, (K) key, (V) value);
+        } else {
+            this.delete(key);
+            NodoBR tmp = root;
+            this.insertBR(tmp, (K) key, (V) value);
+        }
     }
     @Override
     public V search(K key) {
