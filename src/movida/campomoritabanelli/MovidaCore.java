@@ -5,7 +5,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations {
+public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovidaCollaborations {
     private DBUtils utils;
     private Dizionario<String, Movie> movies;
     private Dizionario<String,CardStar> cardStars;
@@ -38,18 +38,26 @@ public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations
         for (Movie movie: m) {
             //"normalizzo" la chiave string,mettendola minuscola,senza spazi bianchi ai "bordi" e "all'interno"
             String key = movie.getTitle().toLowerCase().trim().replaceAll("\\s", "");
-            this.movies.insert(key, movie);
+            Movie test=this.movies.search(key);
+            if( test ==null){
+                this.movies.insert(key, movie);
+            }else {
+                this.movies.delete(key);
+                this.movies.insert(key, movie);
+            }
             this.grafo.extractMovieCollaborations(movie);
-            String director=movie.getDirector().getName().toLowerCase().trim().replaceAll("\\s", "");;
+            String directorName=movie.getDirector().getName();
+            String director=directorName.toLowerCase().trim().replaceAll("\\s", "");;
             CardStar cardDirector=this.cardStars.search((director));
             if(cardDirector==null){
-                this.cardStars.insert(director,new CardStar(director,0));
+                this.cardStars.insert(director,new CardStar(directorName,0));
             }
-            for(Person actor: movie.getCast()){
-                String actorName=actor.getName().toLowerCase().trim().replaceAll("\\s", "");;
-                CardStar cardActor=this.cardStars.search((actorName));
+            for(Person act: movie.getCast()){
+                String actorName=act.getName();
+                String actor=actorName.toLowerCase().trim().replaceAll("\\s", "");;
+                CardStar cardActor=this.cardStars.search((actor));
                 if(cardActor==null){
-                    this.cardStars.insert(actorName,new CardStar(actorName,1));
+                    this.cardStars.insert(actor,new CardStar(actorName,1));
                 }else{cardActor.addFilm();}
             }
         }
@@ -120,7 +128,6 @@ public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations
             return false;
         }
     }
-
 
     ///IMOVIDA SEARCH
     public Movie[] searchMoviesByTitle(String title){
@@ -225,11 +232,11 @@ public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations
 
     public static void main(String[] args) {
         MovidaCore m=new MovidaCore();
-        //m.loadFromFile(new File("esempio-formato-dati.txt")); //PATH LUCA
-        m.loadFromFile(new File("C:\\Users\\Dario\\Desktop\\movida\\Movida\\esempio-formato-dati.txt")); //PATH DARIO
-        Movie[] mo=m.searchMoviesInYear(1993);
-        for(Movie e:mo){
-            System.out.println(e.getTitle());
+        m.loadFromFile(new File("esempio-formato-dati.txt")); //PATH LUCA
+        //m.loadFromFile(new File("C:\\Users\\Dario\\Desktop\\movida\\Movida\\esempio-formato-dati.txt")); //PATH DARIO
+        Person[] mo=m.searchMostActiveActors(3);
+        for(Person e:mo){
+            System.out.println(e.getName());
         }
     }
 }
