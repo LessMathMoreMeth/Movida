@@ -119,11 +119,27 @@ public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations
             return false;
         }
     }
+
+    public Movie searchMostRecentMovies(int n){
+        MyComp
+        this.sorter.sort("year", this.movies.values());
+    }
+
+
+
+
     ///---
 
     public static void main(String[] args) {
         MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt"));
-        System.out.println(m.getPersonByName("Brian de palMa"));
+        //System.out.println(m.getPersonByName("Brian de palMa"));
+
+
+
+
+
     }
 }
+
+
