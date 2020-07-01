@@ -45,7 +45,6 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
                 this.movies.delete(key);
                 this.movies.insert(key, movie);
             }
-            this.grafo.extractMovieCollaborations(movie);
             String directorName=movie.getDirector().getName();
             String director=directorName.toLowerCase().trim().replaceAll("\\s", "");;
             CardStar cardDirector=this.cardStars.search((director));
@@ -60,6 +59,10 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
                     this.cardStars.insert(actor,new CardStar(actorName,1));
                 }else{cardActor.addFilm();}
             }
+        }
+        Movie[] mv=this.movies.values().toArray(new Movie[0]);
+        for(Movie mov: mv) {
+            this.grafo.extractMovieCollaborations(mov);
         }
     }
     public void saveToFile(File f) {
@@ -234,8 +237,9 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
         MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt")); //PATH LUCA
         //m.loadFromFile(new File("C:\\Users\\Dario\\Desktop\\movida\\Movida\\esempio-formato-dati.txt")); //PATH DARIO
-        Person[] mo=m.searchMostActiveActors(3);
-        for(Person e:mo){
+        Person p=new Person("robert De NIro");
+        Person[] pers=m.getTeamOf(p);
+        for(Person e:pers){
             System.out.println(e.getName());
         }
     }
