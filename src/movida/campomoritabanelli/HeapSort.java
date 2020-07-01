@@ -3,7 +3,23 @@ package movida.campomoritabanelli;
 public class HeapSort implements Sorting {
 
     public void sort(String field, MyComp A[]){
-        this.heapSort(A, field);
+        MyComp[] m=transForward(A);
+        this.heapSort(m, field);
+        transBackward(m,A);
+    }
+
+    private static MyComp[] transForward(MyComp A[]){
+        MyComp[] m=new MyComp[A.length+1];
+        for(int i=0;i<A.length;i++){
+            m[i+1]=A[i];
+        }
+        return m;
+    }
+
+    private static void transBackward(MyComp m[],MyComp A[]){
+        for(int j=1;j<m.length;j++){
+            A[j-1]=m[j];
+        }
     }
 
     private static void heapify(MyComp A[], int n, int i, String field){

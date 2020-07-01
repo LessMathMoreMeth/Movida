@@ -13,7 +13,7 @@ public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations
 
     public MovidaCore() {
         this.grafo = new Graph();
-        this.sorter=new InsertionSort();
+        this.sorter=new HeapSort();
         this.movies = new AlberoBinarioRicerca<>();
         this.cardStars=new AlberoBinarioRicerca<>();
         this.utils = new DBUtils();
@@ -120,25 +120,45 @@ public class MovidaCore implements IMovidaConfig,IMovidaDB,IMovidaCollaborations
         }
     }
 
-    public Movie searchMostRecentMovies(int n){
-        MyComp
-        this.sorter.sort("year", this.movies.values());
+
+    ///IMOVIDA SEARCH
+    public Movie[] searchMoviesByTitle(String title){
+        ArrayList<Movie> ret=new ArrayList<>();
+        Movie[] arr=this.movies.values().toArray(new Movie[0]);
+        String match=title.toLowerCase().trim().replaceAll("\\s","");
+        for (Movie m:arr){
+            if(m.titleNormalize().indexOf(match) !=-1){
+                ret.add(m);
+            }
+        }
+        return ret.toArray(new Movie[0]);
     }
-
-
-
-
+    public Movie[] searchMostRecentMovies(Integer n){
+        Movie[] ret=new Movie[n];
+        Movie[] arr=this.movies.values().toArray(new Movie[0]);//casta da arraylist ad array di Movie
+        this.sorter.sort("year", arr);
+        if(arr.length <=n){
+            return arr;
+        }else{
+            int i=0;
+            int j=arr.length-1;
+            while(i<n){
+                ret[i]=arr[j];
+                i++;
+                j--;
+            }
+            return ret;
+        }
+    }
     ///---
 
     public static void main(String[] args) {
         MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt"));
-        //System.out.println(m.getPersonByName("Brian de palMa"));
-
-
-
-
-
+        Movie[] mo=m.searchMoviesByTitle(" The ");
+        for(Movie e:mo){
+            System.out.println(e.getTitle());
+        }
     }
 }
 
