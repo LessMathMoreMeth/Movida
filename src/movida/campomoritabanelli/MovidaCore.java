@@ -39,12 +39,15 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
             //"normalizzo" la chiave string,mettendola minuscola,senza spazi bianchi ai "bordi" e "all'interno"
             String key = movie.getTitle().toLowerCase().trim().replaceAll("\\s", "");
             Movie test=this.movies.search(key);
+            //se il film non è già presente lo inserisco
+            //altrimenti lo sovrascrivo
             if( test ==null){
                 this.movies.insert(key, movie);
             }else {
                 this.movies.delete(key);
                 this.movies.insert(key, movie);
             }
+            //riempimento del dizionario delle persone IN BASE AL LORO RUOLO
             String directorName=movie.getDirector().getName();
             String director=directorName.toLowerCase().trim().replaceAll("\\s", "");;
             CardStar cardDirector=this.cardStars.search((director));
@@ -61,6 +64,8 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
             }
         }
         Movie[] mv=this.movies.values().toArray(new Movie[0]);
+        //Alla fine dello scanning dei film
+        //riempio il grafo delle collaborazioni
         for(Movie mov: mv) {
             this.grafo.extractMovieCollaborations(mov);
         }

@@ -13,32 +13,21 @@ public class Graph {
         this.graph=new HashMap<Person,ArrayList<Collaboration>>();
     }
 
-    public void stampa(){
-        Set<Person> s=this.graph.keySet();
-        for(Person p : s){
-            System.out.println("ATTORE: "+p.getName());
-            ArrayList<Collaboration> colls=this.graph.get(p);
-            for( Collaboration c: colls){
-                System.out.println("    "+c.getActorA().getName()+" : "+c.getActorB().getName());
-            }
-        }
-    }
-
     public Person[] getDirectCollaborators(Person actor){
-        ArrayList<Collaboration> colls=this.graph.get(actor);
-        Person[] p=new Person[colls.size()];
+        ArrayList<Collaboration> colls=this.graph.get(actor);//ottieni la lista di collaborazioni dell'attore
+        Person[] p=new Person[colls.size()];//crea un array di ugual grandezza
         int i=0;
-        for(Collaboration c : colls){
+        for(Collaboration c : colls){//lo riempio con i nomi degli attore COLLABORANTI
             p[i]=c.getActorB();
             i++;
         }
         return p;
     }
 
-    public Person[] getTeam(Person actor){
-        HashSet<Person> mark = new HashSet<>();
-        ArrayList<Person> team = new ArrayList<>();
-        ArrayDeque<Person> q= new ArrayDeque<>();
+    public Person[] getTeam(Person actor){//sostanzialmente è una visita in ampiezza
+        HashSet<Person> mark = new HashSet<>();//tiene traccia delle persone già visitate
+        ArrayList<Person> team = new ArrayList<>();//sarà il team dell'attore
+        ArrayDeque<Person> q= new ArrayDeque<>();//coda in cui tengo le persone da visitare
         mark.add(actor);
         team.add(actor);
         q.add(actor);
