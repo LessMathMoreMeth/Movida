@@ -58,7 +58,7 @@ public class Movie implements MyComp {
         }
     }
 
-    public String stringifyCast(){
+    public String stringifyCast(){//crea una stringa,separata da virgole,del cast
         String c="";
         for(int i=0;i<this.cast.length;i++){
             c=c+cast[i]+",";

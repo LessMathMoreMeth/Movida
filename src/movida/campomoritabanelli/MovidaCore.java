@@ -2,8 +2,7 @@ package movida.campomoritabanelli;
 import movida.commons.*;
 import java.io.File;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
 public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovidaCollaborations {
     private DBUtils utils;
@@ -14,7 +13,7 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
 
     public MovidaCore() {
         this.grafo = new Graph();
-        this.sorter=new HeapSort();
+        this.sorter=new InsertionSort();
         this.movies = new AlberoBinarioRicerca<>();
         this.cardStars=new AlberoBinarioRicerca<>();
         this.utils = new DBUtils();
@@ -69,46 +68,49 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
         for(Movie mov: mv) {
             this.grafo.extractMovieCollaborations(mov);
         }
-    }
+    }//TESTATO
     public void saveToFile(File f) {
         Movie[] m = this.movies.values().toArray(new Movie[0]);//lo converto in un array di movie
         if (m.length != 0) {
             this.utils.save(f, m);
         }
-    }
+    }//TESTATO
     public void clear() {
         this.movies = new AlberoBinarioRicerca<>();
+        this.cardStars= new AlberoBinarioRicerca<>();
+        this.sorter=new InsertionSort();
         this.grafo = new Graph();
-    }
+    }//TESTATO
     public int countMovies() {
         Movie[] m = this.movies.values().toArray(new Movie[0]);
         return m.length;
-    }
+    }//TESTATO
     public int countPeople() {
         Person[] p=this.cardStars.values().toArray(new Person[0]);
         return p.length;
-    }
+    }//TESTATO
     public boolean deleteMovieByTitle(String title) {
-        if (this.movies.search(title) != null) {
-            this.movies.delete(title);
+        String key=title.toLowerCase().trim().replaceAll("\\s", "");
+        if (this.movies.search(key) != null) {
+            this.movies.delete(key);
             return true;
         }
         return false;
-    }
-    public Movie getMovieByTitle(String title) {
+    }//TESTATO
+    public Movie getMovieByTitle(String title) {//TESTATO
         String key = title.toLowerCase().trim().replaceAll("\\s", "");
         return this.movies.search(key);
-    }
+    }//TESTATO
     public Person getPersonByName(String name) {
         String key = name.toLowerCase().trim().replaceAll("\\s", "");
         return this.cardStars.search(key);
-    }
+    }//TESTATO
     public Movie[] getAllMovies() {
         return this.movies.values().toArray(new Movie[0]);
-    }
+    }//TESTATO
     public Person[] getAllPeople() {
         return this.cardStars.values().toArray(new Person[0]);
-    }
+    }//TESTATO
     ///-------
 
     ///IMOVIDA CONFIG
@@ -124,59 +126,60 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
         }else{//altrimenti se non è una implementazione fatta oppure c'è già quel setting,non faccio nulla
             return false;
         }
-    }
+    }//TESTATO
     public boolean setSort(SortingAlgorithm a){
         if(a==SortingAlgorithm.InsertionSort && this.sorter instanceof HeapSort){//analogo con mapImplementation
             this.sorter=new InsertionSort();
             return true;
-        }else if(a==SortingAlgorithm.HeapSort && this.movies instanceof InsertionSort){//caso speculare
+        }else if(a==SortingAlgorithm.HeapSort && this.sorter instanceof InsertionSort){//caso speculare
             this.sorter=new HeapSort();
             return true;
         }else{//altrimenti se non è una implementazione fatta oppure c'è già quel setting,non faccio nulla
             return false;
         }
-    }
+    }//TESTATO
 
     ///IMOVIDA SEARCH
     public Movie[] searchMoviesByTitle(String title){
         ArrayList<Movie> ret=new ArrayList<>();
         Movie[] arr=this.movies.values().toArray(new Movie[0]);
-        String match=title.toLowerCase().trim().replaceAll("\\s","");
+        String match=title.toLowerCase().trim().replaceAll("\\s","");//normalizzo il match,per "omogeneizzare" il matching
         for (Movie m:arr){
             if(m.titleNormalize().indexOf(match) !=-1){
                 ret.add(m);
             }
         }
         return ret.toArray(new Movie[0]);
-    }
+    }//TESTATO
     public Movie[] searchMostRecentMovies(Integer n){
         Movie[] ret=new Movie[n];
         Movie[] arr=this.movies.values().toArray(new Movie[0]);//casta da arraylist ad array di Movie
         this.sorter.sort("year", arr);
+        //essendo in ordine crescente,lo devo rovesciare
+        List<Movie> listMovie = Arrays.asList(arr);
+        Collections.reverse(listMovie);
+        //
         if(arr.length <=n){
             return arr;
         }else{
             int i=0;
-            int j=arr.length-1;
             while(i<n){
-                ret[i]=arr[j];
+                ret[i]=listMovie.get(i);
                 i++;
-                j--;
             }
             return ret;
         }
-    }
+    }//TESTATO
     public Movie[] searchMoviesInYear(Integer year){
         ArrayList<Movie> ret=new ArrayList<>();
         Movie[] arr=this.movies.values().toArray(new Movie[0]);
         for(Movie m:arr){
-            //System.out.println(m.getYear());
             if(m.getYear().equals(year)){
                 ret.add(m);
             }
         }
         return ret.toArray(new Movie[0]);
-    }
+    }//TESTATO
     public Movie[] searchMoviesDirectedBy(String name){
         ArrayList<Movie> ret=new ArrayList<>();
         Movie[] arr=this.movies.values().toArray(new Movie[0]);
@@ -186,7 +189,7 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
             }
         }
         return ret.toArray(new Movie[0]);
-    }
+    }//TESTATO
     public Movie[] searchMoviesStarredBy(String name){
         ArrayList<Movie> ret=new ArrayList<>();
         Movie[] arr=this.movies.values().toArray(new Movie[0]);
@@ -201,51 +204,51 @@ public class MovidaCore implements IMovidaSearch,IMovidaConfig,IMovidaDB,IMovida
             }
         }
         return ret.toArray(new Movie[0]);
-    }
+    }//TESTATO
     public Movie[] searchMostVotedMovies(Integer N){
         Movie[] ret=new Movie[N];
         Movie[] arr=this.movies.values().toArray(new Movie[0]);//casta da arraylist ad array di Movie
         this.sorter.sort("votes", arr);
+        List<Movie> listMovie = Arrays.asList(arr);
+        Collections.reverse(listMovie);
+        //
         if(arr.length <=N){
             return arr;
         }else{
             int i=0;
-            int j=arr.length-1;
             while(i<N){
-                ret[i]=arr[j];
+                ret[i]=listMovie.get(i);
                 i++;
-                j--;
             }
             return ret;
         }
-    }
+    }//TESTATO
     public Person[] searchMostActiveActors(Integer N){
         Person[] ret=new Person[N];
         CardStar[] arr=this.cardStars.values().toArray(new CardStar[0]);//casta da arraylist ad array di Movie
         this.sorter.sort("numFilm", arr);
+        List<CardStar> listCardstar = Arrays.asList(arr);
+        Collections.reverse(listCardstar);
         if(arr.length <=N){
             return arr;
         }else{
             int i=0;
-            int j=arr.length-1;
             while(i<N){
-                ret[i]=arr[j];
+                ret[i]=(Person)listCardstar.get(i);
                 i++;
-                j--;
             }
             return ret;
         }
-    }
+    }//TESTATO
     ///---
 
     public static void main(String[] args) {
         MovidaCore m=new MovidaCore();
         m.loadFromFile(new File("esempio-formato-dati.txt")); //PATH LUCA
         //m.loadFromFile(new File("C:\\Users\\Dario\\Desktop\\movida\\Movida\\esempio-formato-dati.txt")); //PATH DARIO
-        Person p=new Person("robert De NIro");
-        Person[] pers=m.getTeamOf(p);
-        for(Person e:pers){
-            System.out.println(e.getName());
+        Person[] mov=m.searchMostActiveActors(9);
+        for(Person mo:mov){
+            System.out.println(mo.getName());
         }
     }
 }

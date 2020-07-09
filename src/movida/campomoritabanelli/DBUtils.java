@@ -32,7 +32,7 @@ public class DBUtils {
             }
          }
          bw.close();
-      }catch (Exception e){System.out.println(e.getMessage());};
+      }catch (Exception e){new MovidaFileException().getMessage();};
    }
 
    //funzione di caricamento film da un file
@@ -53,7 +53,7 @@ public class DBUtils {
                this.checkIsValidLineSeparator(sc.nextLine());//guardo se il separatore è valido!
             }
          }
-      } catch (Exception m) { System.out.println(m.getMessage()); }
+      } catch (Exception m) { new MovidaFileException().getMessage(); }
       Movie[] mv=new Movie[movies.size()];
       return movies.toArray(mv);
    }

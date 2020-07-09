@@ -56,7 +56,7 @@ public class Graph {
     ///////////////////////////////
 
 
-    // è un problema di Maximum Spanning Tree,uso Prim
+    // è un problema di Maximum Spanning Tree
     public Collaboration[] maximizeCollaborationsInTheTeam(Person actor){
         HashSet<Person> mark=new HashSet<>();//insieme degli attori già marcati
         ArrayList<Collaboration> collabs=new ArrayList<>();//lista delle collaborazioni nel MST
