@@ -1,10 +1,12 @@
 INFORMAZIONI SUL GRUPPO:
-Dario Campomori
+Dario Campomori 0000807562
 Luca Tabanelli 0000802131
 
 ISTRUZIONI:
 Inserire i sorgenti tutti sotto la stessa cartella.
 ATTENZIONE: I file ove verranno loadati o salvati i dati devono ESSERE NELLO STESSO CLASSPATH dei sorgenti
+            La sottocartella src(che contiene le sottocartelle commons e campomoritabanelli) e i file DEVONO ESSERE
+            NELLA STESSA CARTELLA.
 
 DESCRIZIONE:
 Nb: Per classe Person si intende la SCHEDA DEI DATI ANAGRAFICI di tale persona,
@@ -22,10 +24,13 @@ MovidaCore usa come attributi 5 campi:
 Esistono poi 3 interfacce da noi implementate:
 -Dizionario: espone i metodi base di un dizionario("unifica" i tipi ABR e Alberi2-3)
 -Sorting:espone il metodo sort,("unifica" i tipi InsertionSort e HeapSort)
--MyComp:espone il metodo compareChoice,che permette di comparare due oggetti in base a un determinato campo(utili per sorting,per riordinare in base ad un campo).
+-MyComp:espone il metodo compareChoice,che permette di comparare due oggetti in base a un determinato campo(UTILI PER SORTING,per riordinare in base ad un campo).
   Inoltre espone il metodo compareTo,dato che estende l'interfaccia Comparable.
 
 UTILIZZO:
-Per prima cosa,dopo aver istanziato la classe MovidaCore,si effettua il loadfromFile(),in cui,usando il dbUtils,si ricaverà in primis un array di Movie.Successivamente,per ogni movie,si riempie il dizionario movies e cardStars,TENENDO CONTO DI EVENTUALI DOPPIONI.
-Alla fine del ciclo,si riempie il Graph(grafo delle collaborazioni),ciclando  sui values del dizionario movies,chiamando il metodo extractCollaborations di Graph,sul movie in esame.
+Per prima cosa,dopo aver istanziato la classe MovidaCore,si effettua il loadfromFile(),in cui,
+usando il dbUtils,si ricaverà in primis un array di Movie.
+Successivamente,per ogni movie,si riempie il dizionario movies e cardStars,TENENDO CONTO DI EVENTUALI DOPPIONI.
+Alla fine del ciclo,si riempie il Graph(grafo delle collaborazioni),
+ciclando  sui values del dizionario movies,chiamando il metodo extractCollaborations di Graph,sul movie in esame.
 
